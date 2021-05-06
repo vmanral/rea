@@ -24,15 +24,15 @@ Steps to setup the Sinatra app:
 - the AWS instructure could be visualized in ./rea/terraform_plan.png
 5. Identify the IP addresses of the EC2 instances and the address of the ELB
 6. Copy the AWS key pair (A.2 from Prerequisites) under /tmp folder and provide 500 permission to it 
-	    chmod 500 /tmp/aws_devops.pem
+	chmod 500 /tmp/aws_devops.pem
 8. Update the IP addresses of the AWS EC2 instances in the ./rea/configure_infra/ansible_hosts file
 9. Execute the ansible playbook
-	    cd ./rea/configure_infra/
-	    ansible-playbook -i ./ansible_hosts sinatra.yml
+	cd ./rea/configure_infra/
+	ansible-playbook -i ./ansible_hosts sinatra.yml
 10. login into both the AWS EC2 instances with user "ubuntu" and then the web server starts automatically
 11. Verify the web servers by executing http://<ec2_ip_address>/ in a web browser
 12. Verify the ELB by executing the ELB address, 
-    - example: http://internal-r-elb-40015396.us-west-2.elb.amazonaws.com/ in a web browser
+	- example: http://internal-r-elb-40015396.us-west-2.elb.amazonaws.com/ in a web browser
 
 
 Further Improvements:
