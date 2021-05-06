@@ -18,10 +18,10 @@ Steps to setup the Sinatra app:
 	- the Ubuntu AMI may be tied to the specific AWS region
 3. Execute "aws configure" and set the credentials of the IAM user (A.1 from Prerequisites)
 4. cd to ./rea/build_infra/ folder and execute the below commands to create the AWS infrastructure
-	    terraform init
-	    terraform plan
-	    terraform apply
-	- the AWS instructure could be visualized in ./rea/terraform_plan.png
+	- terraform init
+	- terraform plan
+	- terraform apply
+- the AWS instructure could be visualized in ./rea/terraform_plan.png
 5. Identify the IP addresses of the EC2 instances and the address of the ELB
 6. Copy the AWS key pair (A.2 from Prerequisites) under /tmp folder and provide 500 permission to it 
 	    chmod 500 /tmp/aws_devops.pem
