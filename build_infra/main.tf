@@ -85,7 +85,7 @@ resource "aws_security_group" "r_allow_http" {
   }
 }
 
-# Not attaching the r_allow_icmp security group for security reasons
+# Create network interfaces for the EC2's
 resource "aws_network_interface" "r_network_interface" {
 	count         	= var.instance_count
 	subnet_id 		= var.subnet_private_id_A
@@ -95,7 +95,7 @@ resource "aws_network_interface" "r_network_interface" {
 	}
 }
 
-# Create an Ubuntu 18.04 EC2 instance with Python pre-installed (required for Ansible)
+# Create Ubuntu 18.04 EC2 instances with Python pre-installed (required for Ansible)
 resource "aws_instance" "r_machine" {
   count         = var.instance_count
   ami           = var.aws_ami
