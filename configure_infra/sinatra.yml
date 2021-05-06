@@ -1,0 +1,68 @@
+---
+# YAML documents begin with the document separator ---
+
+# The minus in YAML this indicates a list item.  The playbook contains a list
+# of plays, with each play being a dictionary
+
+  # Target: where our play will run and options it will run with
+- name:  Configure-Sinatra
+  become: yes
+  hosts: linux_sinatra
+  gather_facts: yes
+
+  # Task: the list of tasks that will be executed within the play, this section
+  # can also be used for pre and post tasks
+  tasks:
+
+    - name: Install bundler package
+      apt:
+        name: bundler
+        state: present
+
+    - name: Clone the sinatra git repo in a directory
+      ansible.builtin.git:
+        repo: https://github.com/rea-cruitment/simple-sinatra-app.git
+        dest: /home/ubuntu/simple-sinatra-app
+
+    - name: Execute a command
+      shell: bundle install
+      args:
+        chdir: /home/ubuntu/simple-sinatra-app
+
+    # Install nginx web server and configure it as a reverse proxy on port 80. This will shield the underlying web server used by Ruby
+    - name: Install nginx package
+      apt:
+        name: nginx
+        state: present
+
+    - name: Check if /etc/nginx/sites-available/default already exists
+      stat: 
+        path: /etc/nginx/sites-available/default
+      register: sites_available_default
+
+    - name: delete the /etc/nginx/sites-available/default file
+      shell: rm /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+      when: sites_available_default.stat.exists == true
+
+    # Reverse proxy configuration file
+    - name: Copy default.conf on the cm build machines
+      copy:
+        src: default.conf
+        dest: /etc/nginx/conf.d/default.conf
+        mode: 0755
+
+    - name: Insert in .profile to start sinatra on startup
+      blockinfile:
+        path: /home/ubuntu/.profile
+        block: |
+            if [ -d "$HOME/simple-sinatra-app" ]; then
+                cd $HOME/simple-sinatra-app
+                /usr/bin/bundle exec rackup &
+            fi
+
+    - name: Reboot the target machine
+      reboot:
+        reboot_timeout: 180
+
+# Three dots indicate the end of a YAML document
+...
