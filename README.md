@@ -25,6 +25,7 @@ Steps to setup the Sinatra app:
 5. Identify the IP addresses of the EC2 instances and the address of the ELB
 6. Copy the AWS key pair (A.2 from Prerequisites) under /tmp folder and provide 500 permission to it
 	- chmod 500 /tmp/aws_devops.pem
+	- update the name of the key at ./rea/configure_infra/group_vars/linux_sinatra.yml
 8. Update the IP addresses of the AWS EC2 instances in the ./rea/configure_infra/ansible_hosts file
 9. Execute the ansible playbook
  	- cd ./rea/configure_infra/
